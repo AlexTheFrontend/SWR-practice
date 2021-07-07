@@ -1,22 +1,35 @@
 import './App.css';
 import useSWR from 'swr';
 
+//custom fetcher function which returns a promise
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-function App() {
+export default function App() {
 
-  const url = 'https://jsonplaceholder.typicode.com/posts/?_limit=10'
+  const url = 'https://jsonplaceholder.typicode.com/posts/?_limit=50'
   const { data, error } = useSWR(url, fetcher)
   console.log('What is it', data, 'errorDisplay?', error)
 
+  if (error) {
+    return <div>Error...</div>
+  } else if (!data) {
+    return <div>Loading...</div>
+  }
+
+
+
   return (
-    <div className="App">
-      SWR
-    </div>
+    <>
+
+      <pre>{JSON.stringify(data, null, 4)}</pre>
+
+    </>
   );
 }
 
-export default App;
+function Response() {
+
+}
 
 // const fetcher = (...args) => fetch(...args).then(res => res.json())
 
